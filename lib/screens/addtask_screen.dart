@@ -186,7 +186,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       _status = widget.task!.status;
       _assignedUserId = widget.task!.assignedUserId;
     }
-    _loadUsers();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUsers();
+    });
+    // _loadUsers();
   }
 
  _loadUsers() async {

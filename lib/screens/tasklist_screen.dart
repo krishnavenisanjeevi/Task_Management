@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
+import '../provider/notification_service.dart';
 import '../provider/task_provider.dart';
 import '../provider/user_provider.dart';
 import 'addtask_screen.dart';
@@ -16,8 +17,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<TaskProvider>(context, listen: false).fetchTasks();
-    Provider.of<UserProvider>(context, listen: false).fetchUser(1);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<TaskProvider>(context, listen: false).fetchTasks();
+      Provider.of<UserProvider>(context, listen: false).fetchUser(1);
+    });
   }
 
   @override
@@ -31,10 +34,25 @@ class _TaskListScreenState extends State<TaskListScreen> {
       actions: [
         IconButton(
           icon: const Icon(Icons.logout),
-          onPressed: () { auth.logout();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login failed")));
+          onPressed: () {
+             auth.logout();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Logout Successfully")));
             },
+        ),
+        IconButton(
+          icon: const Icon(Icons.alarm),
+          onPressed: () {
+            NotificationService.showInstantNotification(id: 1, body: "alarm",title: "notification");
+            // NotificationService.scheduleNotification(
+            //   1, "hello"," notification",
+            //   // task.id,
+            //   // task.title,
+            //   // "Reminder: ${task.description}",
+            //   // task.dueDate!,
+            // );
+          },
         )
+
       ],
     ),
       body: Scaffold(

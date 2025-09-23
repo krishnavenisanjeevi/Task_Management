@@ -24,40 +24,42 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: const Text("Login")),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(controller: emailCtrl, decoration: const InputDecoration(labelText: "Email")),
-            RoundedText(controller: passCtrl, obscureText: true, labelText: "Password"),
-            const SizedBox(height: 20),
-            loading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: () async {
-                setState(() => loading = true);
-                final success = await auth.login(emailCtrl.text, passCtrl.text);
-                setState(() => loading = false);
+        child: Center(
+          child: Column(
+            children: [
+              TextField(controller: emailCtrl, decoration: const InputDecoration(labelText: "Email")),
+              RoundedText(controller: passCtrl, obscureText: true, labelText: "Password"),
+              const SizedBox(height: 20),
+              loading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                onPressed: () async {
+                  setState(() => loading = true);
+                  final success = await auth.login(emailCtrl.text, passCtrl.text);
+                  setState(() => loading = false);
 
-                if(success) {
-                 Navigator.push(
-                   context,
-                   MaterialPageRoute(builder: (_) => const TaskListScreen()),
-                 );
-                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("LogIn successfully")));
-                }
-                if (!success && mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login failed")));
-                }
-              },
-              child: const Text("Login"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                  if(success) {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(builder: (_) => const TaskListScreen()),
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("LogIn successfully")));
+                  }
+                  if (!success && mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login failed")));
+                  }
+                },
+                child: const Text("Login"),
               ),
-              child: const Text("No account? Register here"),
-            )
-          ],
+              TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                ),
+                child: const Text("No account? Register here"),
+              )
+            ],
+          ),
         ),
       ),
     );

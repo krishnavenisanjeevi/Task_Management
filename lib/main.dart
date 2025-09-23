@@ -12,14 +12,14 @@ import 'screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await NotificationService.init();
+   await NotificationService.init();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TaskProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => CategoryProvider()), // NEW
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: const MyApp(),
      ),
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
       home:
-      // const TaskFormScreen()
+      // const TaskListScreen()
       Consumer<AuthProvider>(
         builder: (context, auth, _) {
           if (!auth.initialized) {
